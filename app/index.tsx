@@ -1,5 +1,5 @@
 import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useRef, Component, RefObject, createRef } from 'react';
 import SafeScreen from '@/components/SafeScreen';
 import Post from '@/components/Post';
 import { font } from '@/constants/Fonts';
@@ -7,31 +7,42 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AddComment from '@/components/Modals/AddComment';
 import { ActionSheetRef } from 'react-native-actions-sheet';
+import { observer } from 'mobx-react';
+import { rootStore } from '@/models';
+@observer
+class Index extends Component {
+  private actionSheetRef: RefObject<ActionSheetRef>;
+  theme = rootStore.theme;
 
-const Index = () => {
-  const actionSheetRef = useRef<ActionSheetRef>(null);
+  constructor(props: any) {
+    super(props);
 
-  const showAddCommentsModal = () => {
-    actionSheetRef?.current?.show();
+    this.actionSheetRef = createRef<ActionSheetRef>();
+  }
+
+  showAddCommentsModal = () => {
+    this.actionSheetRef?.current?.show();
   };
 
-  return (
-    <SafeScreen>
-      <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
-        <Text style={styles.title}>Comments</Text>
-        <TouchableOpacity onPress={showAddCommentsModal}>
-          <MaterialIcons name="add-box" size={30} color="black " />
-        </TouchableOpacity>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Post />
-        <Post />
-      </ScrollView>
-      <AddComment actionSheetRef={actionSheetRef} />
-    </SafeScreen>
-  );
-};
+  render() {
+    return (
+      <SafeScreen>
+        <StatusBar barStyle={this.theme.mode === 'light' ? 'dark-content' : `light-content`} />
+        <View style={styles.header}>
+          <Text style={styles.title}>Comments</Text>
+          <TouchableOpacity onPress={this.showAddCommentsModal}>
+            <MaterialIcons name="add-box" size={30} color="black " />
+          </TouchableOpacity>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Post />
+          <Post />
+        </ScrollView>
+        <AddComment actionSheetRef={this.actionSheetRef} />
+      </SafeScreen>
+    );
+  }
+}
 
 export default Index;
 

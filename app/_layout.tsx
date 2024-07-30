@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SheetProvider } from 'react-native-actions-sheet';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import FontLoader from '@/hooks/loadFonts';
 import axios from 'axios';
 import * as Location from 'expo-location';
@@ -105,7 +105,7 @@ class App extends Component {
 
   render() {
     if (!this.state.fontsLoaded) {
-      return <ActivityIndicator size="large" />;
+      return <ActivityIndicator size="large" style={s.activityIndecator} />;
     }
 
     return (
@@ -124,5 +124,9 @@ class App extends Component {
     );
   }
 }
+
+const s = StyleSheet.create({
+  activityIndecator: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+});
 
 export default App;

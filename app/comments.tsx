@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { Component } from 'react';
 
-const Comments = () => {
-  return (
-    <View>
-      <Text>Comments</Text>
-    </View>
-  );
-};
+class Comments extends Component {
+  render() {
+    return (
+      <View>
+        <Text>Comments</Text>
+      </View>
+    );
+  }
+}
 
 export default Comments;
 

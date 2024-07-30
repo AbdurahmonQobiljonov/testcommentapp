@@ -1,6 +1,6 @@
 import { Colors } from '@/constants/Colors';
 import React, { useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,17 +12,20 @@ interface IProps {
 
 const RootModal = ({ actionSheetRef, children, heightPercent }: IProps) => {
   const insets = useSafeAreaInsets();
-  const containerStyles = useMemo(() => ({
-    height: heightPercent ? `${heightPercent}%` : '100%',
-    ...styles.container,
-  }));
+  const containerStyles = useMemo(
+    () => ({
+      height: heightPercent ? `${heightPercent}%` : '100%',
+      ...styles.container,
+    }),
+    [heightPercent],
+  );
   return (
     <ActionSheet
       indicatorStyle={styles.indicatiorStyle}
       gestureEnabled
       safeAreaInsets={insets}
       drawUnderStatusBar
-      containerStyle={containerStyles}
+      containerStyle={containerStyles as ViewStyle}
       ref={actionSheetRef}>
       {children}
     </ActionSheet>
